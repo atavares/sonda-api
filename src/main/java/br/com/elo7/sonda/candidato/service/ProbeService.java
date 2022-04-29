@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.annotations.VisibleForTesting;
-import br.com.elo7.sonda.candidato.dto.InputDTO;
+import br.com.elo7.sonda.candidato.restapi.controller.form.InputForm;
 import br.com.elo7.sonda.candidato.dto.ProbeDTO;
 import br.com.elo7.sonda.candidato.model.Command;
 import br.com.elo7.sonda.candidato.model.Direction;
@@ -23,7 +23,7 @@ public class ProbeService {
 	@Autowired
 	private Probes probes;
 	
-	public List<Probe> landProbes(InputDTO input) {
+	public List<Probe> landProbes(InputForm input) {
 		Planet planet = concertPlanet(input);
 		planets.save(planet);
 		
@@ -109,7 +109,7 @@ public class ProbeService {
 		
 	}
 	
-	private List<Probe> convertAndMoveProbes(InputDTO input, Planet planet) {
+	private List<Probe> convertAndMoveProbes(InputForm input, Planet planet) {
 		return input.getProbes()
 						.stream().map(probeDto -> {
 							Probe probe = convertProbe(probeDto, planet);
@@ -133,7 +133,7 @@ public class ProbeService {
 		return probe;
 	}
 	
-	private Planet concertPlanet(InputDTO input) {
+	private Planet concertPlanet(InputForm input) {
 		Planet planet = new Planet();
 		planet.setHeight(input.getHeight());
 		planet.setWidth(input.getWidth());

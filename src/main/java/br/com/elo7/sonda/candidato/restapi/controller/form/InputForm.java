@@ -1,8 +1,10 @@
-package br.com.elo7.sonda.candidato.dto;
+package br.com.elo7.sonda.candidato.restapi.controller.form;
+
+import br.com.elo7.sonda.candidato.dto.ProbeDTO;
 
 import java.util.List;
 
-public class InputDTO {
+public class InputForm {
 	private int width; 
 	private int height;
 	private List<ProbeDTO> probes;
