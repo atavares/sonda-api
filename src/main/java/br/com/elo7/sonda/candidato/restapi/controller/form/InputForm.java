@@ -1,30 +1,40 @@
 package br.com.elo7.sonda.candidato.restapi.controller.form;
 
-import br.com.elo7.sonda.candidato.dto.ProbeDTO;
-
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class InputForm {
-	private int width; 
-	private int height;
-	private List<ProbeDTO> probes;
+	@NotNull(message = "Width é obrigatório")
+	private Integer width;
+	@NotNull(message = "Height é obrigatório")
+	private Integer height;
+	@Valid
+	@NotEmpty(message = "Probes são obrigatórios")
+	private List<ProbeForm> probes;
 
-	public int getWidth() {
+	public Integer getWidth() {
 		return width;
 	}
-	public void setWidth(int width) {
+
+	public void setWidth(Integer width) {
 		this.width = width;
 	}
-	public int getHeight() {
+
+	public Integer getHeight() {
 		return height;
 	}
-	public void setHeight(int height) {
+
+	public void setHeight(Integer height) {
 		this.height = height;
 	}
-	public List<ProbeDTO> getProbes() {
+
+	public List<ProbeForm> getProbes() {
 		return probes;
 	}
-	public void setProbes(List<ProbeDTO> probes) {
+
+	public void setProbes(List<ProbeForm> probes) {
 		this.probes = probes;
 	}
 }

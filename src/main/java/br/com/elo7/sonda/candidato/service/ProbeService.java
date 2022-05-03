@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.annotations.VisibleForTesting;
 import br.com.elo7.sonda.candidato.restapi.controller.form.InputForm;
-import br.com.elo7.sonda.candidato.dto.ProbeDTO;
+import br.com.elo7.sonda.candidato.restapi.controller.form.ProbeForm;
 import br.com.elo7.sonda.candidato.model.Command;
 import br.com.elo7.sonda.candidato.model.Direction;
 import br.com.elo7.sonda.candidato.model.Planet;
@@ -118,13 +118,13 @@ public class ProbeService {
 						}).collect(Collectors.toList());
 	}
 
-	private void moveProbeWithAllCommands(Probe probe, ProbeDTO probeDTO) {
+	private void moveProbeWithAllCommands(Probe probe, ProbeForm probeDTO) {
 		for (char command : probeDTO.getCommands().toCharArray()) {
 			applyCommandToProbe(probe, command);
 		}
 	}
 	
-	private Probe convertProbe(ProbeDTO probeDto, Planet planet) {
+	private Probe convertProbe(ProbeForm probeDto, Planet planet) {
 		Probe probe = new Probe();
 		probe.setPlanet(planet);
 		probe.setX(probeDto.getX());
