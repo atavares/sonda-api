@@ -3,6 +3,7 @@ package br.com.elo7.sonda.candidato.restapi.controller;
 import java.net.URI;
 import java.util.List;
 
+import br.com.elo7.sonda.candidato.restapi.controller.dto.ProbeDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ProbeRestController {
 	private ProbeService probeService;
 
 	@PostMapping
-    public ResponseEntity<List<Probe>> register(@RequestBody @Valid InputForm inputForm) {
+    public ResponseEntity<List<ProbeDTO>> register(@RequestBody @Valid InputForm inputForm) {
 		LOGGER.info("register planet with probe to width {} height {} probes {}", inputForm.getWidth(), inputForm.getHeight(), inputForm.getProbes());
 		return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequestUri()
 																 .build()

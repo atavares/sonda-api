@@ -6,7 +6,15 @@ public class Planet {
 	private int id;
 	private int width;
 	private int height;
-	
+
+	public Planet() {
+	}
+
+	public Planet(InputForm input) {
+		this.height = input.getHeight();
+		this.width = input.getWidth();
+	}
+
 	@Override
 	public int hashCode() {
 		return id;
@@ -37,13 +45,6 @@ public class Planet {
 	}
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public static Planet converterFrom(InputForm input) {
-		Planet planet = new Planet();
-		planet.setHeight(input.getHeight());
-		planet.setWidth(input.getWidth());
-		return planet;
 	}
 
 }
