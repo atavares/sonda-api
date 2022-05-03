@@ -24,7 +24,7 @@ public class ProbeService {
 	private Probes probes;
 	
 	public List<Probe> landProbes(InputForm input) {
-		Planet planet = concertPlanet(input);
+		Planet planet = Planet.converterFrom(input);
 		planets.save(planet);
 		
 		List<Probe> convertedProbes = convertAndMoveProbes(input, planet);
@@ -112,7 +112,7 @@ public class ProbeService {
 	private List<Probe> convertAndMoveProbes(InputForm input, Planet planet) {
 		return input.getProbes()
 						.stream().map(probeDto -> {
-							Probe probe = convertProbe(probeDto, planet);
+							Probe probe = Probe.converterFrom(probeDto, planet);
 							moveProbeWithAllCommands(probe, probeDto);
 							return probe;
 						}).collect(Collectors.toList());
@@ -122,21 +122,5 @@ public class ProbeService {
 		for (char command : probeDTO.getCommands().toCharArray()) {
 			applyCommandToProbe(probe, command);
 		}
-	}
-	
-	private Probe convertProbe(ProbeForm probeDto, Planet planet) {
-		Probe probe = new Probe();
-		probe.setPlanet(planet);
-		probe.setX(probeDto.getX());
-		probe.setY(probeDto.getY());
-		probe.setDirection(probeDto.getDirection());
-		return probe;
-	}
-	
-	private Planet concertPlanet(InputForm input) {
-		Planet planet = new Planet();
-		planet.setHeight(input.getHeight());
-		planet.setWidth(input.getWidth());
-		return planet;
 	}
 }
