@@ -1,5 +1,7 @@
 package br.com.elo7.sonda.candidato.restapi.controller.form;
 
+import br.com.elo7.sonda.candidato.model.Direction;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -8,7 +10,8 @@ public class ProbeForm {
 	private Integer x;
 	@NotNull(message = "y é obrigatório")
 	private Integer y;
-	private char direction;
+	@NotNull(message = "Direction é obrigatório")
+	private Direction direction;
 	@NotEmpty(message = "Commands é obrigatório")
 	private String commands;
 
@@ -28,11 +31,11 @@ public class ProbeForm {
 		this.y = y;
 	}
 
-	public char getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 
-	public void setDirection(char direction) {
+	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 

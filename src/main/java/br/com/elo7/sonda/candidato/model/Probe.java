@@ -7,7 +7,7 @@ public class Probe {
 	private int id;
 	private int x;
 	private int y;
-	private char direction;
+	private Direction direction;
 	private Planet planet;
 	private String commands;
 
@@ -40,88 +40,78 @@ public class Probe {
 		return y;
 	}
 
-	public char getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 
 	public void moveProbeWithAllCommands() {
 		for (char command : commands.toCharArray()) {
-			applyCommandToProbe(command);
+			applyCommandToProbe(Command.valueOf(String.valueOf(command)));
 		}
 	}
 
 	@VisibleForTesting
-	void applyCommandToProbe(char command) {
+	void applyCommandToProbe(Command command) {
 		switch (command) {
-			case Command.R:
+			case R:
 				turnProbeRight();
 				break;
-			case Command.L:
+			case L:
 				turnProbeLeft();
 				break;
-			case Command.M:
+			case M:
 				moveProbeForward();
 				break;
 		}
 	}
 
 	private void turnProbeLeft() {
-		char newDirection = Direction.N;
 		switch (direction) {
-			case Direction.N:
-				newDirection = Direction.W;
+			case N:
+				direction = Direction.W;
 				break;
-			case Direction.W:
-				newDirection = Direction.S;
+			case W:
+				direction = Direction.S;
 				break;
-			case Direction.S:
-				newDirection = Direction.E;
+			case S:
+				direction = Direction.E;
 				break;
-			case Direction.E:
-				newDirection = Direction.N;
-				break;
+			default:
+				direction = Direction.N;
 		}
-		direction = newDirection;
 	}
 
 	private void turnProbeRight() {
-		char newDirection = Direction.N;
 		switch (direction) {
-			case Direction.N:
-				newDirection = Direction.E;
+			case N:
+				direction = Direction.E;
 				break;
-			case Direction.E:
-				newDirection = Direction.S;
+			case E:
+				direction = Direction.S;
 				break;
-			case Direction.S:
-				newDirection = Direction.W;
+			case S:
+				direction = Direction.W;
 				break;
-			case Direction.W:
-				newDirection = Direction.N;
-				break;
+			default:
+				direction = Direction.N;
 		}
-		direction = newDirection;
 	}
 
 	private void moveProbeForward() {
-		int newX = x;
-		int newY = y;
 		switch (direction) {
-			case Direction.N:
-				newY++;
+			case N:
+				y++;
 				break;
-			case Direction.W:
-				newX--;
+			case W:
+				x--;
 				break;
-			case Direction.S:
-				newY--;
+			case S:
+				y--;
 				break;
-			case Direction.E:
-				newX++;
+			case E:
+				x++;
 				break;
 		}
-		x = newX;
-		y = newY;
 	}
 
 

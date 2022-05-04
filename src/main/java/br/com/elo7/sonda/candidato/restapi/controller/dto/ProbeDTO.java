@@ -1,5 +1,6 @@
 package br.com.elo7.sonda.candidato.restapi.controller.dto;
 
+import br.com.elo7.sonda.candidato.model.Direction;
 import br.com.elo7.sonda.candidato.model.Planet;
 import br.com.elo7.sonda.candidato.model.Probe;
 
@@ -11,10 +12,10 @@ public class ProbeDTO {
     private int id;
     private int x;
     private int y;
-    private char direction;
+    private Direction direction;
     private PlanetDTO planet;
 
-    public ProbeDTO(int id, int x, int y, char direction, PlanetDTO planet) {
+    public ProbeDTO(int id, int x, int y, Direction direction, PlanetDTO planet) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -34,7 +35,7 @@ public class ProbeDTO {
         return y;
     }
 
-    public char getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
