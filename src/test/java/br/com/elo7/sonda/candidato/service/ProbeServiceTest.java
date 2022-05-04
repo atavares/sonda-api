@@ -1,128 +1,63 @@
 package br.com.elo7.sonda.candidato.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import br.com.elo7.sonda.candidato.model.Command;
+import br.com.elo7.sonda.candidato.model.Direction;
+import br.com.elo7.sonda.candidato.model.Planet;
+import br.com.elo7.sonda.candidato.model.Probe;
+import br.com.elo7.sonda.candidato.repository.PlanetsRepository;
+import br.com.elo7.sonda.candidato.repository.ProbesRepository;
+import br.com.elo7.sonda.candidato.restapi.controller.dto.ProbeDTO;
+import br.com.elo7.sonda.candidato.restapi.controller.form.InputForm;
+import br.com.elo7.sonda.candidato.restapi.controller.form.ProbeForm;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.elo7.sonda.candidato.model.Probe;
+import java.util.Arrays;
+import java.util.List;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(MockitoExtension.class)
 public class ProbeServiceTest {
-	
-	@Autowired
-	private ProbeService subject;
-	
-	@Test
-	public void should_change_probe_direction_from_N_To_W_when_receive_the_command_L() {
-		Probe probe = new Probe();
-		probe.setDirection('N');
-		subject.applyCommandToProbe(probe, 'L');
-		assertEquals('W', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_W_To_S_when_receive_the_command_L() {
-		Probe probe = new Probe();
-		probe.setDirection('W');
-		subject.applyCommandToProbe(probe, 'L');
-		assertEquals('S', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_S_To_E_when_receive_the_command_L() {
-		Probe probe = new Probe();
-		probe.setDirection('S');
-		subject.applyCommandToProbe(probe, 'L');
-		assertEquals('E', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_E_To_N_when_receive_the_command_L() {
-		Probe probe = new Probe();
-		probe.setDirection('E');
-		subject.applyCommandToProbe(probe, 'L');
-		assertEquals('N', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_N_To_E_when_receive_the_command_R() {
-		Probe probe = new Probe();
-		probe.setDirection('N');
-		subject.applyCommandToProbe(probe, 'R');
-		assertEquals('E', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_E_To_S_when_receive_the_command_R() {
-		Probe probe = new Probe();
-		probe.setDirection('E');
-		subject.applyCommandToProbe(probe, 'R');
-		assertEquals('S', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_S_To_W_when_receive_the_command_R() {
-		Probe probe = new Probe();
-		probe.setDirection('S');
-		subject.applyCommandToProbe(probe, 'R');
-		assertEquals('W', probe.getDirection());		
-	}
-	
-	@Test
-	public void should_change_probe_direction_from_W_To_N_when_receive_the_command_R() {
-		Probe probe = new Probe();
-		probe.setDirection('W');
-		subject.applyCommandToProbe(probe, 'R');
-		assertEquals('N', probe.getDirection());		
-	}
 
-	@Test
-	public void should_change_probe_position_from_1_1_N_To_1_2_N_when_receive_the_command_M() {
-		Probe probe = new Probe();
-		probe.setX(1);
-		probe.setY(1);
-		probe.setDirection('N');
-		subject.applyCommandToProbe(probe, 'M');
-		assertEquals(2, probe.getY());
-		assertEquals(1, probe.getX());
-		assertEquals('N', probe.getDirection());
-	}
-	
-	@Test
-	public void should_change_probe_position_from_1_1_S_To_1_0_S_when_receive_the_command_M() {
-		Probe probe = new Probe();
-		probe.setX(1);
-		probe.setY(1);
-		probe.setDirection('S');
-		subject.applyCommandToProbe(probe, 'M');
-		assertEquals(0, probe.getY());
-		assertEquals(1, probe.getX());
-		assertEquals('S', probe.getDirection());
-	}
-	
-	@Test
-	public void should_change_probe_position_from_1_1_W_To_0_1_W_when_receive_the_command_M() {
-		Probe probe = new Probe();
-		probe.setX(1);
-		probe.setY(1);
-		probe.setDirection('W');
-		subject.applyCommandToProbe(probe, 'M');
-		assertEquals(0, probe.getX());
-		assertEquals(1, probe.getY());
-		assertEquals('W', probe.getDirection());
-	}
-	
-	@Test
-	public void should_change_probe_position_from_1_1_E_To_2_1_E_when_receive_the_command_M() {
-		Probe probe = new Probe();
-		probe.setX(1);
-		probe.setY(1);
-		probe.setDirection('E');
-		subject.applyCommandToProbe(probe, 'M');
-		assertEquals(2, probe.getX());
-		assertEquals(1, probe.getY());
-		assertEquals('E', probe.getDirection());
-	}
+    @Mock
+    private PlanetsRepository planetsRepository;
+    @Mock
+    private ProbesRepository probesRepository;
+    @InjectMocks
+    private ProbeService probeService;
+
+    @Test
+    public void should_return_list_probes_when_convert_and_move_probes() {
+
+        ProbeForm pf1 = new ProbeForm();
+        pf1.setX(1);
+        pf1.setY(2);
+        pf1.setDirection(Direction.N);
+        pf1.setCommands("LMLMLMLMM");
+
+        InputForm input = new InputForm();
+        input.setHeight(10);
+        input.setWidth(10);
+        input.setProbes(Arrays.asList(pf1));
+
+        Mockito.when(planetsRepository.save(Mockito.any(Planet.class))).thenReturn(new Planet());
+        Mockito.when(probesRepository.save(Mockito.any(Probe.class))).thenReturn(new Probe.Builder().build());
+
+        List<ProbeDTO> probes = probeService.landProbes(input);
+
+        assertEquals(1, probes.size());
+        assertEquals(1, probes.get(0).getX());
+        assertEquals(3, probes.get(0).getY());
+        assertEquals(Direction.N, probes.get(0).getDirection());
+        assertEquals(10, probes.get(0).getPlanet().getWidth());
+        assertEquals(10, probes.get(0).getPlanet().getHeight());
+    }
+
+
 }

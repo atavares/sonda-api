@@ -18,7 +18,6 @@ public class Probe {
 	private final Planet planet;
 	private final String commands;
 
-
 	private Probe(Builder builder) {
 		this.x = builder.x;
 		this.y = builder.y;
@@ -33,7 +32,6 @@ public class Probe {
 		private int x;
 		private int y;
 		private Direction direction;
-
 		private String commands;
 
 		public Builder from(ProbeForm probeForm){
@@ -47,22 +45,18 @@ public class Probe {
 			this.planet = planet;
 			return this;
 		}
-
 		public Builder with(Direction direction){
 			this.direction = direction;
 			return this;
 		}
-
 		public Builder withX(int x){
 			this.x = x;
 			return this;
 		}
-
 		public Builder withY(int y){
 			this.y = y;
 			return this;
 		}
-
 		public Probe build() {
 			return new Probe(this);
 		}
