@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 public class ProbeDTO {
 
-    private int id;
+    private long id;
     private int x;
     private int y;
     private Direction direction;
     private PlanetDTO planet;
 
-    public ProbeDTO(int id, int x, int y, Direction direction, PlanetDTO planet) {
+    public ProbeDTO(long id, int x, int y, Direction direction, PlanetDTO planet) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -23,7 +23,7 @@ public class ProbeDTO {
         this.planet = planet;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

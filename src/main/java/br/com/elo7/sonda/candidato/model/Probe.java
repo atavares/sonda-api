@@ -3,11 +3,18 @@ package br.com.elo7.sonda.candidato.model;
 import br.com.elo7.sonda.candidato.restapi.controller.form.ProbeForm;
 import com.google.common.annotations.VisibleForTesting;
 
+import javax.persistence.*;
+
+@Entity
 public class Probe {
-	private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	private int x;
 	private int y;
+	@Enumerated(EnumType.STRING)
 	private Direction direction;
+	@ManyToOne
 	private Planet planet;
 	private String commands;
 
@@ -22,10 +29,10 @@ public class Probe {
 		this.commands = probeDto.getCommands();
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public Planet getPlanet() {
@@ -36,12 +43,24 @@ public class Probe {
 		return x;
 	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
 	public int getY() {
 		return y;
 	}
 
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	public Direction getDirection() {
 		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	public void moveProbeWithAllCommands() {

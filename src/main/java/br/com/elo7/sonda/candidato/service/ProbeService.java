@@ -3,34 +3,38 @@ package br.com.elo7.sonda.candidato.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.elo7.sonda.candidato.model.Command;
 import br.com.elo7.sonda.candidato.restapi.controller.dto.ProbeDTO;
+import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.annotations.VisibleForTesting;
 import br.com.elo7.sonda.candidato.restapi.controller.form.InputForm;
-import br.com.elo7.sonda.candidato.restapi.controller.form.ProbeForm;
-import br.com.elo7.sonda.candidato.model.Command;
-import br.com.elo7.sonda.candidato.model.Direction;
 import br.com.elo7.sonda.candidato.model.Planet;
 import br.com.elo7.sonda.candidato.model.Probe;
-import br.com.elo7.sonda.candidato.persistence.Planets;
-import br.com.elo7.sonda.candidato.persistence.Probes;
+import br.com.elo7.sonda.candidato.repository.PlanetsRepository;
+import br.com.elo7.sonda.candidato.repository.ProbesRepository;
 
 @Service
 public class ProbeService {
+
+	private PlanetsRepository planetsRepository;
+	private ProbesRepository probesRepository;
+
 	@Autowired
-	private Planets planets;
-	@Autowired
-	private Probes probes;
+	public ProbeService(PlanetsRepository planetsRepository,
+						ProbesRepository probesRepository){
+		this.planetsRepository = planetsRepository;
+		this.probesRepository = probesRepository;
+	}
 	
 	public List<ProbeDTO> landProbes(InputForm input) {
 		Planet planet =  new Planet(input);
-		planets.save(planet);
-		
+		planetsRepository.save(planet);
+
 		List<Probe> convertedProbes = convertAndMoveProbes(input, planet);
-		convertedProbes.forEach(probe -> probes.save(probe));
-		
+		convertedProbes.forEach(probe -> probesRepository.save(probe));
+
 		return ProbeDTO.converterFrom(convertedProbes);
 	}
 
@@ -42,4 +46,5 @@ public class ProbeService {
 							return probe;
 						}).collect(Collectors.toList());
 	}
+
 }
