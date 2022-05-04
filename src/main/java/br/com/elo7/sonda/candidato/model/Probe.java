@@ -15,25 +15,62 @@ public class Probe {
 	@Enumerated(EnumType.STRING)
 	private Direction direction;
 	@ManyToOne
-	private Planet planet;
-	private String commands;
+	private final Planet planet;
+	private final String commands;
 
-	public Probe() {
+
+	private Probe(Builder builder) {
+		this.x = builder.x;
+		this.y = builder.y;
+		this.direction = builder.direction;
+		this.planet = builder.planet;
+		this.commands = builder.commands;
 	}
 
-	public Probe(ProbeForm probeDto, Planet planet) {
-		this.planet = planet;
-		this.x = probeDto.getX();
-		this.y = probeDto.getY();
-		this.direction = probeDto.getDirection();
-		this.commands = probeDto.getCommands();
+
+	public static class Builder {
+		private Planet planet;
+		private int x;
+		private int y;
+		private Direction direction;
+
+		private String commands;
+
+		public Builder from(ProbeForm probeForm){
+			this.x = probeForm.getX();
+			this.y = probeForm.getY();
+			this.direction = probeForm.getDirection();
+			this.commands = probeForm.getCommands();
+			return this;
+		}
+		public Builder from(Planet planet){
+			this.planet = planet;
+			return this;
+		}
+
+		public Builder with(Direction direction){
+			this.direction = direction;
+			return this;
+		}
+
+		public Builder withX(int x){
+			this.x = x;
+			return this;
+		}
+
+		public Builder withY(int y){
+			this.y = y;
+			return this;
+		}
+
+		public Probe build() {
+			return new Probe(this);
+		}
+
 	}
 
 	public long getId() {
 		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
 	}
 	public Planet getPlanet() {
 		return planet;
@@ -43,25 +80,15 @@ public class Probe {
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
 	public int getY() {
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
-	}
 
 	public Direction getDirection() {
 		return direction;
 	}
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
-	}
 
 	public void moveProbeWithAllCommands() {
 		for (char command : commands.toCharArray()) {
@@ -72,64 +99,36 @@ public class Probe {
 	@VisibleForTesting
 	void applyCommandToProbe(Command command) {
 		switch (command) {
-			case R:
-				turnProbeRight();
-				break;
-			case L:
-				turnProbeLeft();
-				break;
-			case M:
-				moveProbeForward();
-				break;
+			case R -> turnProbeRight();
+			case L -> turnProbeLeft();
+			case M -> moveProbeForward();
 		}
 	}
 
 	private void turnProbeLeft() {
 		switch (direction) {
-			case N:
-				direction = Direction.W;
-				break;
-			case W:
-				direction = Direction.S;
-				break;
-			case S:
-				direction = Direction.E;
-				break;
-			default:
-				direction = Direction.N;
+			case N -> direction = Direction.W;
+			case W -> direction = Direction.S;
+			case S -> direction = Direction.E;
+			default -> direction = Direction.N;
 		}
 	}
 
 	private void turnProbeRight() {
 		switch (direction) {
-			case N:
-				direction = Direction.E;
-				break;
-			case E:
-				direction = Direction.S;
-				break;
-			case S:
-				direction = Direction.W;
-				break;
-			default:
-				direction = Direction.N;
+			case N -> direction = Direction.E;
+			case E -> direction = Direction.S;
+			case S -> direction = Direction.W;
+			default -> direction = Direction.N;
 		}
 	}
 
 	private void moveProbeForward() {
 		switch (direction) {
-			case N:
-				y++;
-				break;
-			case W:
-				x--;
-				break;
-			case S:
-				y--;
-				break;
-			case E:
-				x++;
-				break;
+			case N -> y++;
+			case W -> x--;
+			case S -> y--;
+			case E -> x++;
 		}
 	}
 
