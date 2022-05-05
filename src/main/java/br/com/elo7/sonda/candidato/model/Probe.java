@@ -26,7 +26,6 @@ public class Probe {
 		this.commands = builder.commands;
 	}
 
-
 	public static class Builder {
 		private Planet planet;
 		private int x;

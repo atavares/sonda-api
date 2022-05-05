@@ -1,7 +1,6 @@
 package br.com.elo7.sonda.candidato.restapi.controller.dto;
 
 public class PlanetDTO {
-
     private long id;
     private int width;
     private int height;

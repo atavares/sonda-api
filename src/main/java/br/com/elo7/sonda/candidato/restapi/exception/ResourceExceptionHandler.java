@@ -14,7 +14,6 @@ import java.util.List;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> methodArgumentNotValidException(MethodArgumentNotValidException ex,
                                                                   HttpServletRequest request){
@@ -27,5 +26,4 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(new StandardErrorDTO(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), errors));
     }
-
 }

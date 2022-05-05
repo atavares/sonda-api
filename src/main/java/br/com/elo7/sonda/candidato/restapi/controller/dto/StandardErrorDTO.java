@@ -5,7 +5,6 @@ import java.util.List;
 public class StandardErrorDTO {
     private long timestamp;
     private int code;
-
     private List<FieldErrorDTO> errors;
 
     public StandardErrorDTO(long timestamp, int code, List<FieldErrorDTO> errors) {
